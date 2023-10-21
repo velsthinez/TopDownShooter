@@ -5,15 +5,15 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     public float Acceleration = 5f;
-    private float m_MovementSmoothing = .05f;
+    protected float m_MovementSmoothing = .05f;
 
-    private Collider2D _collider;
-    private Rigidbody2D _rigidbody;
+    protected Collider2D _collider;
+    protected Rigidbody2D _rigidbody;
 
-    private bool _isMoving = false;
+    protected bool _isMoving = false;
 
-    private Vector2 _inputDirection;
-    private Vector2 m_Velocity = Vector2.zero;
+    protected Vector2 _inputDirection;
+    protected Vector2 m_Velocity = Vector2.zero;
 
     // Start is called before the first frame update
     void Start()
@@ -30,11 +30,8 @@ public class Movement : MonoBehaviour
         HandleMovement();
     }
 
-    private void HandleInput()
+    protected virtual void HandleInput()
     {
-        _inputDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        // _inputMovement.Normalize();
-
     }
     
     private void HandleMovement()
