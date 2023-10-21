@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -46,5 +47,7 @@ public class Movement : MonoBehaviour
         _rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity,ref m_Velocity, m_MovementSmoothing);
 
         _isMoving = targetVelocity.x != 0 || targetVelocity.y != 0;
+        
+        transform.rotation = Quaternion.LookRotation(Vector3.forward, (targetVelocity));
     }
 }
