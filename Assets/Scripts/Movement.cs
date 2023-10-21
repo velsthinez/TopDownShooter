@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    public float MaxSpeed = 20f;
     public float Acceleration = 5f;
-    public float Deceleration = -1000f;
-    
+    private float m_MovementSmoothing = .05f;
+
     private Collider2D _collider;
     private Rigidbody2D _rigidbody;
 
     private bool _isMoving = false;
-    
+
+    private Vector2 _inputDirection;
+    private Vector2 m_Velocity = Vector2.zero;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,20 +25,29 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        HandleInput();
+        
+        HandleMovement();
+    }
+
+    private void HandleInput()
+    {
+        _inputDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        // _inputMovement.Normalize();
+
+    }
+    
+    private void HandleMovement()
+    {
         if (_rigidbody == null || _collider == null)
             return;
-
-        if (Input.GetKey(KeyCode.W) && _rigidbody.velocity.magnitude < MaxSpeed)
-        {
-            _rigidbody.AddForce(transform.up * (Acceleration * Time.deltaTime));
-            _isMoving = true;
-        }
-        else
-        {
-            _isMoving = false;
-        }
         
-        if ( !_isMoving && _rigidbody.velocity.magnitude > 0)   
-            _rigidbody.AddForce(-_rigidbody.velocity * (Deceleration * Time.deltaTime));
+        Vector2 targetVelocity = Vector2.zero;
+        
+        targetVelocity = new Vector2(_inputDirection.x * (Acceleration), _inputDirection.y * (Acceleration));
+
+        _rigidbody.velocity = Vector2.SmoothDamp(_rigidbody.velocity, targetVelocity,ref m_Velocity, m_MovementSmoothing);
+
+        _isMoving = targetVelocity.x != 0 || targetVelocity.y != 0;
     }
 }
