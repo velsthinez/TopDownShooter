@@ -17,7 +17,8 @@ public class Weapon : MonoBehaviour
     public GameObject Projectile;
     public Transform SpawnPos;
     public float Interval = 0.1f;
-
+    public Cooldown AutofireShootInterval;
+    
     private float _timer = 0f;
     private bool _canShoot = true;
     private bool _singleFireReset = true;
@@ -25,15 +26,11 @@ public class Weapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_timer < Interval)
-        {
-            _timer += Time.deltaTime;
-            _canShoot = false;
-            return;
-        }
 
-        _timer = 0f;
-        _canShoot = true;
+        if (AutofireShootInterval.CurrentProgress != Cooldown.Progress.Finished)
+            return;
+
+        AutofireShootInterval.CurrentProgress = Cooldown.Progress.Ready;
     }
 
     public void Shoot()
@@ -49,22 +46,14 @@ public class Weapon : MonoBehaviour
             Debug.LogWarning("Missing SpawnPosition transform");
             return;
         }
-
-        switch (FireMode)
-        {
-            case (FireModes.SingleFire):
-            {
-                SingleFireShoot();
-                break;
-            }
-
-            case (FireModes.Auto):
-            {
-                AutoFireShoot();
-                break;
-            }
-        }
-      
+        
+        if(AutofireShootInterval.CurrentProgress != Cooldown.Progress.Ready)
+            return;
+        
+        GameObject bullet = GameObject.Instantiate(Projectile, SpawnPos.position, SpawnPos.rotation);
+        
+        AutofireShootInterval.StartCooldown();
+        
     }
 
     void AutoFireShoot()

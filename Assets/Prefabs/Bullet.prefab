@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 2846581137287134935}
   - component: {fileID: 1391810136404334300}
   - component: {fileID: 5203521144067859518}
+  - component: {fileID: 5918325112171208884}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -134,10 +135,12 @@ MonoBehaviour:
   Damage: 10
   Speed: 1000
   PushForce: 1000
-  Lifetime: 1
+  Lifetime:
+    CurrentProgress: 0
+    Duration: 1
   TargetLayerMask:
     serializedVersion: 2
-    m_Bits: 2147483647
+    m_Bits: 0
 --- !u!61 &1391810136404334300
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -185,3 +188,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &5918325112171208884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9113571167835664736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6296379bfd05a67458e3cb48ca315494, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 1
+  PushForce: 1000
+  TargetLayerMask:
+    serializedVersion: 2
+    m_Bits: 192
