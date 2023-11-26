@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6120027824610521723}
   - component: {fileID: 6120027824610521722}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,8 @@ GameObject:
   - component: {fileID: 6120027825617841858}
   - component: {fileID: 6120027825617841859}
   - component: {fileID: 7596879715957186237}
-  m_Layer: 0
+  - component: {fileID: 1095190854}
+  m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,5 +179,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7af2b66c44976564fafee56ba8088ee8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Acceleration: 5
+  Acceleration: 2
   Target: {fileID: 0}
+  RotationDregree: 22.5
+--- !u!114 &1095190854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6120027825617841856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ebfa668c77a82f40974fa5aff83320a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHealth: 10
+  Invulnerable:
+    CurrentProgress: 0
+    Duration: 0.1
