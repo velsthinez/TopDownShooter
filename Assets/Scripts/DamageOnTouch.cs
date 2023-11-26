@@ -11,19 +11,40 @@ public class DamageOnTouch : MonoBehaviour
 
     public float Damage = 1f;
     public float PushForce = 10f;
-
+    
+    public GameObject[] DamageableFeedbacks;
+    public GameObject[] AnythingFeedbacks;
+    
     public LayerMask TargetLayerMask;
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        // If we hit something that doesn't belong in our TargetLayerMask
-        if(!((TargetLayerMask.value & (1 << col.gameObject.layer)) > 0))
-            return;
+        if (((TargetLayerMask.value & (1 << col.gameObject.layer)) > 0))
+            HitDamageable(col);
+        else
+            HitAnything(col);
+    }
+    
+    private void HitAnything(Collider2D col)
+    {
+        Rigidbody2D targetRigidbody = col.gameObject.GetComponent<Rigidbody2D>();
 
-        Debug.Log("hit target");
+        if (targetRigidbody != null)
+        {
+            targetRigidbody.AddForce((col.transform.position - transform.position).normalized * PushForce);
+        }
+
+        OnHit?.Invoke();
+        SpawnFeedbacks(AnythingFeedbacks);
+    }
+
+    private void HitDamageable(Collider2D col)
+    {
+        // // If we hit something that doesn't belong in our TargetLayerMask
+        // if (!((TargetLayerMask.value & (1 << col.gameObject.layer)) > 0))
+        //     return;
+
         Health targetHealth = col.gameObject.GetComponent<Health>();
-
-        Debug.Log(targetHealth);
         
         if (targetHealth == null)
             return;
@@ -34,14 +55,22 @@ public class DamageOnTouch : MonoBehaviour
         {
             targetRigidbody.AddForce((col.transform.position - transform.position).normalized * PushForce);
         }
-        
+
         TryDamage(targetHealth);
+        SpawnFeedbacks(DamageableFeedbacks);
     }
 
     private void TryDamage(Health targetHealth)
     {
         targetHealth.Damage(Damage, transform.gameObject);
-        Debug.Log("hit " + targetHealth);
         OnHit?.Invoke();
+    }
+    
+    void SpawnFeedbacks(GameObject[] Feedbacks)
+    {
+        foreach (var feedback in Feedbacks)
+        {
+            GameObject.Instantiate(feedback, transform.position, transform.rotation);
+        }
     }
 }

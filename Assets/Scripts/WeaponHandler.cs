@@ -21,6 +21,7 @@ public class WeaponHandler : MonoBehaviour
         
     }
 
+
     protected virtual void HandleWeapon()
     {
         if (CurrentWeapon == null)
@@ -31,6 +32,10 @@ public class WeaponHandler : MonoBehaviour
         
         if (_tryShoot)
             CurrentWeapon.Shoot();
+        else
+            CurrentWeapon.StopShoot();
+
+        
     }
 
     public void EquipWeapon(Weapon weapon)

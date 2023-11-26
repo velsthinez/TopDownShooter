@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 5203521144067859518}
   - component: {fileID: 5918325112171208884}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: PistolBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -132,15 +132,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb080a50300dfb24093c14b576bbd00b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 10
   Speed: 1000
-  PushForce: 1000
   Lifetime:
     CurrentProgress: 0
     Duration: 1
-  TargetLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!61 &1391810136404334300
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -201,7 +196,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 1
-  PushForce: 1000
+  PushForce: 250
+  DamageableFeedbacks:
+  - {fileID: 7545729797566287843, guid: d76793b5d59260d4791e0c31bd658535, type: 3}
+  - {fileID: 711057586000794384, guid: 10b3312ccb8c7cd43a431480f50ebcfb, type: 3}
+  AnythingFeedbacks:
+  - {fileID: 7545729797566287843, guid: 6be2e5c672481434ea26b9c89d828f35, type: 3}
+  - {fileID: 711057586000794384, guid: 0fcb19cc185bb6e49932c1530db38227, type: 3}
   TargetLayerMask:
     serializedVersion: 2
     m_Bits: 192

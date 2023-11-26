@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Weapon : MonoBehaviour
 {
@@ -13,10 +15,12 @@ public class Weapon : MonoBehaviour
     }
 
     public FireModes FireMode;
-    
+    public float Spread = 0f;
     public GameObject Projectile;
+    
+    public GameObject[] Feedbacks;
+    
     public Transform SpawnPos;
-    public float Interval = 0.1f;
     public Cooldown AutofireShootInterval;
     
     private float _timer = 0f;
@@ -46,14 +50,20 @@ public class Weapon : MonoBehaviour
             Debug.LogWarning("Missing SpawnPosition transform");
             return;
         }
-        
-        if(AutofireShootInterval.CurrentProgress != Cooldown.Progress.Ready)
-            return;
-        
-        GameObject bullet = GameObject.Instantiate(Projectile, SpawnPos.position, SpawnPos.rotation);
-        
-        AutofireShootInterval.StartCooldown();
-        
+
+        switch (FireMode)
+        {
+            case FireModes.Auto:
+            {
+                AutoFireShoot();
+                break;
+            }
+            case FireModes.SingleFire:
+            {
+                SingleFireShoot();
+                break;
+            }
+        }
     }
 
     void AutoFireShoot()
@@ -61,7 +71,15 @@ public class Weapon : MonoBehaviour
         if (!_canShoot)
             return;
 
-        GameObject.Instantiate(Projectile, SpawnPos.position, SpawnPos.rotation);
+        if(AutofireShootInterval.CurrentProgress != Cooldown.Progress.Ready)
+            return;
+        
+        float randomRot = Random.Range(-Spread, Spread);
+
+        GameObject bullet = GameObject.Instantiate(Projectile, SpawnPos.position, SpawnPos.rotation * Quaternion.Euler(0,0,randomRot));
+        AutofireShootInterval.StartCooldown();
+        SpawnFeedbacks();
+
     }
 
     void SingleFireShoot()
@@ -69,7 +87,11 @@ public class Weapon : MonoBehaviour
         if (!_singleFireReset)
             return;
         
-        GameObject.Instantiate(Projectile, SpawnPos.position, SpawnPos.rotation);
+        float randomRot = Random.Range(-Spread, Spread);
+
+        GameObject bullet = GameObject.Instantiate(Projectile, SpawnPos.position, SpawnPos.rotation * Quaternion.Euler(0,0,randomRot));
+        SpawnFeedbacks();
+        
         _singleFireReset = false;
     }
 
@@ -77,4 +99,13 @@ public class Weapon : MonoBehaviour
     {
         _singleFireReset = true;
     }
+
+    void SpawnFeedbacks()
+    {
+        foreach (var feedback in Feedbacks)
+        {
+            GameObject.Instantiate(feedback, SpawnPos.position, SpawnPos.rotation);
+        }
+    }
+
 }

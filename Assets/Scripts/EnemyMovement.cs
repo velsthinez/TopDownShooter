@@ -18,7 +18,7 @@ public class EnemyMovement : Movement
             return;
 
         GetIdealDirection();
-        // _inputDirection = (Target.position - transform.position).normalized;
+        _inputDirection = (Target.position - transform.position).normalized;
     }
 
     void GetIdealDirection()
