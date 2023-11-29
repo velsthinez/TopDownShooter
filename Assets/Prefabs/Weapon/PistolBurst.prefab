@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 3472344074579960894}
   - component: {fileID: 5757769296858932564}
   m_Layer: 0
-  m_Name: Pistol
+  m_Name: PistolBurst
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -161,10 +161,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb41ffffdf38911429d7b06e7f8e0e10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FireMode: 1
+  FireMode: 2
   Spread: 2
   BurstFireAmount: 3
-  BurstFireInterval: 0.1
+  BurstFireInterval: 0.05
   Projectile: {fileID: 9113571167835664736, guid: 9dc9c00286877364a8a3c6302fee4091, type: 3}
   Feedbacks:
   - {fileID: 7545729797566287843, guid: fb6b5e105fa8cb343ae9ac43b76ad35c, type: 3}
@@ -172,4 +172,4 @@ MonoBehaviour:
   SpawnPos: {fileID: 4242444106812416448}
   ShootInterval:
     CurrentProgress: 0
-    Duration: 1
+    Duration: 0.2
