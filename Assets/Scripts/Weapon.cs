@@ -16,25 +16,29 @@ public class Weapon : MonoBehaviour
 
     public FireModes FireMode;
     public float Spread = 0f;
+    public int BurstFireAmount = 3;
+    public float BurstFireInterval = 0.1f;
+    
+    
     public GameObject Projectile;
     
     public GameObject[] Feedbacks;
     
     public Transform SpawnPos;
-    public Cooldown AutofireShootInterval;
+    public Cooldown ShootInterval;
     
     private float _timer = 0f;
     private bool _canShoot = true;
-    private bool _singleFireReset = true;
+    private bool _fireReset = true;
 
     // Update is called once per frame
     void Update()
     {
 
-        if (AutofireShootInterval.CurrentProgress != Cooldown.Progress.Finished)
+        if (ShootInterval.CurrentProgress != Cooldown.Progress.Finished)
             return;
 
-        AutofireShootInterval.CurrentProgress = Cooldown.Progress.Ready;
+        ShootInterval.CurrentProgress = Cooldown.Progress.Ready;
     }
 
     public void Shoot()
@@ -63,6 +67,11 @@ public class Weapon : MonoBehaviour
                 SingleFireShoot();
                 break;
             }
+            case FireModes.BurstFire:
+            {
+                BurstFireShoot();
+                break;
+            }
         }
     }
 
@@ -71,20 +80,23 @@ public class Weapon : MonoBehaviour
         if (!_canShoot)
             return;
 
-        if(AutofireShootInterval.CurrentProgress != Cooldown.Progress.Ready)
+        if(ShootInterval.CurrentProgress != Cooldown.Progress.Ready)
             return;
         
         float randomRot = Random.Range(-Spread, Spread);
 
         GameObject bullet = GameObject.Instantiate(Projectile, SpawnPos.position, SpawnPos.rotation * Quaternion.Euler(0,0,randomRot));
-        AutofireShootInterval.StartCooldown();
+        ShootInterval.StartCooldown();
         SpawnFeedbacks();
 
     }
 
     void SingleFireShoot()
     {
-        if (!_singleFireReset)
+        if (!_canShoot)
+            return;
+
+        if (!_fireReset)
             return;
         
         float randomRot = Random.Range(-Spread, Spread);
@@ -92,12 +104,74 @@ public class Weapon : MonoBehaviour
         GameObject bullet = GameObject.Instantiate(Projectile, SpawnPos.position, SpawnPos.rotation * Quaternion.Euler(0,0,randomRot));
         SpawnFeedbacks();
         
-        _singleFireReset = false;
+        _fireReset = false;
     }
 
+    void BurstFireShoot()
+    {
+        if (!_canShoot)
+            return;
+        
+        if (_burstFiring)
+            return;
+        
+        if (!_fireReset)
+            return;
+        
+        if(ShootInterval.CurrentProgress != Cooldown.Progress.Ready)
+            return;
+        
+        StartCoroutine(BurstFireCo());
+        
+    }
+
+    protected bool _burstFiring = false;
+    protected float _lastShootRequestAt;
+
+    IEnumerator BurstFireCo()
+    {
+        _burstFiring = true;
+        _fireReset = false;
+        
+        if (Time.time - _lastShootRequestAt < BurstFireInterval)
+        {
+            yield break;
+        }
+        
+        int remainingShots = BurstFireAmount;
+        
+        while (remainingShots > 0  )
+        {
+            
+            float randomRot = Random.Range(-Spread, Spread);
+
+            GameObject bullet = GameObject.Instantiate(Projectile, SpawnPos.position, SpawnPos.rotation * Quaternion.Euler(0,0,randomRot));
+            SpawnFeedbacks();
+            _lastShootRequestAt = Time.time;
+
+            remainingShots--;
+            yield return WaitFor(BurstFireInterval);
+        }
+        
+        _burstFiring = false;
+
+        ShootInterval.StartCooldown();
+    }
+
+    IEnumerator WaitFor(float seconds)
+    {
+        for (float timer = 0f; timer < seconds; timer += Time.deltaTime)
+        {
+            yield return null;
+        }
+    }
+    
     public void StopShoot()
     {
-        _singleFireReset = true;
+        if (FireMode == FireModes.Auto)
+            return;
+        
+        _fireReset = true;
     }
 
     void SpawnFeedbacks()
