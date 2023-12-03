@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,9 @@ public class Health : MonoBehaviour
     public delegate void ResetEvent();
     public ResetEvent OnHitReset;
 
+    public delegate void DeathEvent();
+    public DeathEvent OnDeath;
+    
     public float MaxHealth = 10f;
     public Cooldown Invulnerable;
     
@@ -18,8 +22,13 @@ public class Health : MonoBehaviour
         get { return _currentHealth; }
     }
     
-    private float _currentHealth = 10f;
+    public float _currentHealth = 10f;
     private bool _canDamage = true;
+
+    private void Start()
+    {
+        _currentHealth = MaxHealth;
+    }
 
     // Update is called once per frame
     void Update()
@@ -51,15 +60,20 @@ public class Health : MonoBehaviour
             _currentHealth = 0f;
             Die();
         }
-        
-        Invulnerable.StartCooldown();
-        _canDamage = false;
+
+        if (Invulnerable.Duration > 0)
+        {
+            Invulnerable.StartCooldown();
+            _canDamage = false;
+
+        }
         
         OnHit?.Invoke(source);
     }
 
     public void Die()
     {
+        OnDeath?.Invoke();
         Destroy(this.gameObject);
     }
 }

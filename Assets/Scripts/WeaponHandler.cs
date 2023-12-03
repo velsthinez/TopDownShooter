@@ -7,7 +7,7 @@ public class WeaponHandler : MonoBehaviour
 {
     public Weapon CurrentWeapon;
     public Transform GunPosition;
-
+    
     protected bool _tryShoot = false;
 
     private void Update()

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class DamageOnTouch : MonoBehaviour
 {
@@ -9,16 +10,21 @@ public class DamageOnTouch : MonoBehaviour
     public delegate void OnHitSomething();
     public OnHitSomething OnHit;
 
-    public float Damage = 1f;
+    public float MinDamage = 1f;
+    public float MaxDamage = 1f;
     public float PushForce = 10f;
     
     public GameObject[] DamageableFeedbacks;
     public GameObject[] AnythingFeedbacks;
     
     public LayerMask TargetLayerMask;
+    public LayerMask IgnoreLayerMask;
 
     private void OnTriggerEnter2D(Collider2D col)
     {
+        if (((IgnoreLayerMask.value & (1 << col.gameObject.layer)) > 0))
+            return;
+        
         if (((TargetLayerMask.value & (1 << col.gameObject.layer)) > 0))
             HitDamageable(col);
         else
@@ -62,7 +68,9 @@ public class DamageOnTouch : MonoBehaviour
 
     private void TryDamage(Health targetHealth)
     {
-        targetHealth.Damage(Damage, transform.gameObject);
+        float damageAmount = Random.Range(MinDamage, MaxDamage);
+        Debug.Log(damageAmount);
+        targetHealth.Damage(damageAmount, transform.gameObject);
         OnHit?.Invoke();
     }
     

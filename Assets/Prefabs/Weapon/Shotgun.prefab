@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 3472344074579960894}
   - component: {fileID: 5757769296858932564}
   m_Layer: 0
-  m_Name: PistolBurst
+  m_Name: Shotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -161,22 +161,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb41ffffdf38911429d7b06e7f8e0e10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FireMode: 2
-  Spread: 8
+  FireMode: 1
+  Spread: 15
   BurstFireAmount: 3
-  BurstFireInterval: 0.05
-  ProjectileCount: 1
-  Projectile: {fileID: 9113571167835664736, guid: 9dc9c00286877364a8a3c6302fee4091, type: 3}
+  BurstFireInterval: 0.1
+  ProjectileCount: 5
+  Projectile: {fileID: 9113571167835664736, guid: d65bdd60029ab2b42b1195d03b3e8cae, type: 3}
   Feedbacks:
   - {fileID: 7545729797566287843, guid: fb6b5e105fa8cb343ae9ac43b76ad35c, type: 3}
-  - {fileID: 711057586000794384, guid: 38282ceafa7e9da4f94cf51952c597a1, type: 3}
+  - {fileID: 711057586000794384, guid: f09a5617d5d48f44b801a78f63bfc11a, type: 3}
   ReloadFeedbacks:
-  - {fileID: 711057586000794384, guid: 5df551990c560f44f881a6e39f2a5276, type: 3}
+  - {fileID: 711057586000794384, guid: 873c736d2e977214c9475382e264d32d, type: 3}
   SpawnPos: {fileID: 4242444106812416448}
   ShootInterval:
     CurrentProgress: 0
-    Duration: 0.2
+    Duration: 1
   ReloadCooldown:
     CurrentProgress: 0
-    Duration: 2.2
-  MaxBulletCount: 12
+    Duration: 4
+  MaxBulletCount: 7
