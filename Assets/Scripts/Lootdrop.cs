@@ -7,8 +7,8 @@ using Random = UnityEngine.Random;
 public class Lootdrop : MonoBehaviour
 {
     public float DropChance = 10f;
-    
-    public GameObject Loot;
+
+    public GameObject[] RandomLoot;
 
     private Health _health;
     // Start is called before the first frame update
@@ -27,9 +27,16 @@ public class Lootdrop : MonoBehaviour
 
         float chance = Random.Range(0, 100);
 
+        if (chance > DropChance)
+            return;
+
+        int selectedLoot = Random.Range(0, RandomLoot.Length);
+        
+        Debug.Log(selectedLoot);
+        
         if (chance <= DropChance)
         {
-            GameObject.Instantiate(Loot, transform.position, Quaternion.identity);
+            GameObject.Instantiate(RandomLoot[selectedLoot], transform.position, Quaternion.identity);
         }
 
     }

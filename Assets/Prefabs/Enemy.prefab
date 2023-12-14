@@ -383,8 +383,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1669fba5c9d464c47addc9f76f27861e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DropChance: 10
-  Loot: {fileID: 7936881592743668649, guid: a20c6c65f5ec17f47b6c127546640243, type: 3}
+  DropChance: 100
+  RandomLoot:
+  - {fileID: 7936881592743668649, guid: 3efcb7cb6071df948aa7deb05151e40c, type: 3}
+  - {fileID: 427528196448265381, guid: a20c6c65f5ec17f47b6c127546640243, type: 3}
+  - {fileID: 2074407659955780639, guid: 048c76808aae35144bab884b2b8140e0, type: 3}
+  - {fileID: 6346519518246516782, guid: 38a73016af5ea3747a072282fb5968d7, type: 3}
 --- !u!1 &6344394614326677360
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,7 +460,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6296379bfd05a67458e3cb48ca315494, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 1
+  MinDamage: 1
+  MaxDamage: 1
   PushForce: 1000
   DamageableFeedbacks: []
   AnythingFeedbacks: []

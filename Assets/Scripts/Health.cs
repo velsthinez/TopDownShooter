@@ -8,6 +8,9 @@ public class Health : MonoBehaviour
     public delegate void HitEvent(GameObject source);
     public HitEvent OnHit;
 
+    public delegate void HealEvent(GameObject source);
+    public HealEvent OnHeal;
+    
     public delegate void ResetEvent();
     public ResetEvent OnHitReset;
 
@@ -71,6 +74,13 @@ public class Health : MonoBehaviour
         OnHit?.Invoke(source);
     }
 
+    public void Heal(float amount)
+    {
+        _currentHealth += amount;
+        _currentHealth = Mathf.Clamp(_currentHealth, 0, MaxHealth);
+        OnHeal?.Invoke(this.gameObject);
+    }
+    
     public void Die()
     {
         OnDeath?.Invoke();

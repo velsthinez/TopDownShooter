@@ -69,7 +69,6 @@ public class DamageOnTouch : MonoBehaviour
     private void TryDamage(Health targetHealth)
     {
         float damageAmount = Random.Range(MinDamage, MaxDamage);
-        Debug.Log(damageAmount);
         targetHealth.Damage(damageAmount, transform.gameObject);
         OnHit?.Invoke();
     }

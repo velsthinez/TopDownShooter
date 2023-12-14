@@ -3,10 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pickup : MonoBehaviour
+public abstract class PickUp : MonoBehaviour
 {
-    public GameObject Weapon;
-
     public GameObject[] PickupFeedbacks;
     
     public LayerMask TargetLayerMask;
@@ -15,19 +13,19 @@ public class Pickup : MonoBehaviour
     {
         if (!((TargetLayerMask.value & (1 << col.gameObject.layer)) > 0))
             return;
-
-        WeaponHandler weaponHandler = col.GetComponent<WeaponHandler>();
-
-        if (weaponHandler == null)
-            return;
         
-        weaponHandler.EquipWeapon(Weapon);
-
+        PickedUp(col);
+        
         foreach (var feedback in PickupFeedbacks)
         {
             GameObject.Instantiate(feedback, transform.position, transform.rotation);
         }
-        
+
         Destroy(gameObject);
+    }
+
+    protected virtual void PickedUp(Collider2D col)
+    {
+        
     }
 }
