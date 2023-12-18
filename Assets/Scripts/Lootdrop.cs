@@ -27,17 +27,15 @@ public class Lootdrop : MonoBehaviour
 
         float chance = Random.Range(0, 100);
 
+        // Debug.Log($"Rolled a {chance} . {DropChance}");
+
         if (chance > DropChance)
             return;
 
         int selectedLoot = Random.Range(0, RandomLoot.Length);
         
-        Debug.Log(selectedLoot);
+        GameObject.Instantiate(RandomLoot[selectedLoot], transform.position, Quaternion.identity);
         
-        if (chance <= DropChance)
-        {
-            GameObject.Instantiate(RandomLoot[selectedLoot], transform.position, Quaternion.identity);
-        }
 
     }
 }
